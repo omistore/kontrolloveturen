@@ -66,6 +66,7 @@ export type VehicleReport = {
 export type ReportResponse = {
   order: Order
   report: VehicleReport | null
+  vehicle?: DecodedVin | null
   bankTransfer?: { iban: string; bic: string; holder: string; bankName: string; reference: string }
   message: string
 }

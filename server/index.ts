@@ -183,7 +183,17 @@ app.get('/api/reports/:orderId', asyncHandler(async (req, res) => {
     }
   }
 
+  let vehicle: Awaited<ReturnType<typeof decodeVin>> | null = null
+  if (!report) {
+    try {
+      vehicle = await decodeVin(order.vin)
+    } catch {
+      vehicle = null
+    }
+  }
+
   res.json({
+    vehicle,
     order: {
       id: order.id,
       vin: order.vin,

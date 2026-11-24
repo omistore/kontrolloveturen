@@ -5,6 +5,7 @@ import {
   ArrowRight,
   Calendar,
   Car,
+  Lock,
   Check,
   CheckCircle2,
   Clock3,
@@ -558,20 +559,66 @@ export default function ReportPage() {
                 </div>
 
                 {/* Car summary locked view */}
-                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Automjeti:</span>
-                    <strong className="text-white text-sm">{order?.vehicleType || 'Automjet i identifikuar'}</strong>
+                <div className="rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
+                  <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-emerald-500/10 to-transparent border-b border-slate-800">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                      <Car size={26} />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-white font-black text-base truncate">
+                        {data?.vehicle ? `${data.vehicle.make} ${data.vehicle.model}` : order?.vehicleType || 'Automjet i identifikuar'}
+                      </div>
+                      <div className="font-mono text-emerald-400 text-xs">{order?.vinMasked || order?.vin}</div>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-slate-400">Numri VIN:</span>
-                    <strong className="font-mono text-emerald-400">{order?.vinMasked || order?.vin}</strong>
+                  {data?.vehicle && (
+                    <div className="grid grid-cols-2 gap-px bg-slate-800 text-xs">
+                      {[
+                        ['Viti', data.vehicle.year],
+                        ['Motori', data.vehicle.engine],
+                        ['Karburanti', data.vehicle.fuelType],
+                        ['Karroceria', data.vehicle.bodyType],
+                        ['Vendi i prodhimit', data.vehicle.country],
+                      ].filter(([, v]) => v).map(([k, v]) => (
+                        <div key={String(k)} className="bg-slate-950 p-3">
+                          <div className="text-slate-500">{k}</div>
+                          <div className="text-white font-semibold">{String(v)}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="p-4 space-y-2 border-t border-slate-800">
+                    {['Kilometrazhi i verifikuar', 'Historiku i aksidenteve', 'Pronarët e mëparshëm', 'Kontrolli i vjedhjes', 'Foto nga ankandet'].map((label) => (
+                      <div key={label} className="flex items-center justify-between text-xs">
+                        <span className="text-slate-300">{label}</span>
+                        <span className="flex items-center gap-2 text-slate-500">
+                          <span className="blur-sm select-none">12 345 km</span>
+                          <Lock size={13} className="text-amber-400" />
+                        </span>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-800">
+                  <div className="p-4 border-t border-slate-800">
+                    <div className="text-xs text-slate-300 mb-2">Foto nga ankandet</div>
+                    <div className="relative grid grid-cols-4 gap-2">
+                      {[0, 1, 2, 3].map((i) => (
+                        <div key={i} className="aspect-video rounded-lg bg-gradient-to-br from-slate-700 to-slate-900 blur-[3px] flex items-center justify-center text-slate-500">
+                          <Car size={22} />
+                        </div>
+                      ))}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-950/90 border border-amber-500/40 text-amber-300 text-xs font-bold">
+                          <Lock size={13} /> Të kyçura deri në pagesë
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-xs p-4 border-t border-slate-800">
                     <span className="text-slate-400 font-bold">Totali për pagesë:</span>
                     <span className="text-xl font-black text-emerald-400">19.99 €</span>
                   </div>
                 </div>
+
 
                 {/* Bank transfer instructions */}
                 <div className="space-y-3">
