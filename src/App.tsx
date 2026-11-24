@@ -27,7 +27,7 @@ import {
   Wrench,
   XCircle,
 } from 'lucide-react'
-import { createOrder, decodeVin, type DecodedVin } from './api'
+import { createOrder, decodeVin, describeVehicle, type DecodedVin } from './api'
 import { Header } from './shared/Header'
 import { Footer } from './shared/Footer'
 
@@ -205,7 +205,7 @@ function Hero() {
 
     setLoading(true)
     try {
-      const vehicleDesc = decoded ? `${decoded.make} ${decoded.model} (${decoded.year})` : ''
+      const vehicleDesc = decoded ? describeVehicle(decoded) : ''
       const order = await createOrder({
         vin,
         firstName,
@@ -300,7 +300,7 @@ function Hero() {
                     <CheckCircle2 size={20} className="text-emerald-400 shrink-0" />
                     <div>
                       <span className="font-bold text-white">Automjeti u gjet me sukses: </span>
-                      {decoded.make} {decoded.model} ({decoded.year}) • {decoded.fuelType || 'Dizell'} • Origjina: {decoded.country}
+                      {[describeVehicle(decoded), decoded.fuelType, decoded.country && `Origjina: ${decoded.country}`].filter(Boolean).join(' • ')}
                     </div>
                   </div>
                 )}
@@ -370,7 +370,7 @@ function Hero() {
                     </div>
                     <div>
                       <div className="text-sm font-bold text-white">
-                        {decoded ? `${decoded.make} ${decoded.model} (${decoded.year})` : 'Automjeti i identifikuar'}
+                        {describeVehicle(decoded)}
                       </div>
                       <div className="text-xs font-mono text-slate-400">{vin}</div>
                     </div>

@@ -566,7 +566,7 @@ export default function ReportPage() {
                     </div>
                     <div className="min-w-0">
                       <div className="text-white font-black text-base truncate">
-                        {data?.vehicle ? `${data.vehicle.make} ${data.vehicle.model}` : order?.vehicleType || 'Automjet i identifikuar'}
+                        {data?.vehicle?.make ? [data.vehicle.make, data.vehicle.model].filter(Boolean).join(' ') : order?.vehicleType || 'Automjet i identifikuar'}
                       </div>
                       <div className="font-mono text-emerald-400 text-xs">{order?.vinMasked || order?.vin}</div>
                     </div>

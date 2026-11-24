@@ -111,7 +111,7 @@ app.post(
     let vehicleType = parsed.data.vehicleType
     if (!vehicleType) {
       const decoded = await decodeVin(parsed.data.vin)
-      vehicleType = `${decoded.make} ${decoded.model} (${decoded.year})`
+      vehicleType = [decoded.make, decoded.model, decoded.year || ''].filter(Boolean).join(' ')
     }
 
     const order = await storage.createOrder({

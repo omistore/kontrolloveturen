@@ -168,3 +168,9 @@ export function updateAdminOrderStatus(
     body: JSON.stringify({ status, paymentStatus }),
   })
 }
+
+export function describeVehicle(d: DecodedVin | null | undefined): string {
+  if (!d || !d.make) return 'Automjeti i identifikuar'
+  const name = [d.make, d.model].filter(Boolean).join(' ')
+  return d.year ? ` ()` : name
+}
