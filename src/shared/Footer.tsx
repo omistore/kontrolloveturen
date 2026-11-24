@@ -75,7 +75,7 @@ export function Footer() {
             <h3 className="text-white font-bold text-xs uppercase tracking-wider mb-4">Navigimi</h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="/#kontrollo" className="hover:text-emerald-400 transition-colors">
+                <a href={`${import.meta.env.BASE_URL}#kontrollo`} className="hover:text-emerald-400 transition-colors">
                   Kontrollo Numrin VIN
                 </a>
               </li>
@@ -86,22 +86,22 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="/#zbulimi" className="hover:text-emerald-400 transition-colors">
+                <a href={`${import.meta.env.BASE_URL}#zbulimi`} className="hover:text-emerald-400 transition-colors">
                   Çfarë Zbulon Raporti
                 </a>
               </li>
               <li>
-                <a href="/#krahasimi" className="hover:text-emerald-400 transition-colors">
+                <a href={`${import.meta.env.BASE_URL}#krahasimi`} className="hover:text-emerald-400 transition-colors">
                   Krahasimi me Kontrollin me Sy
                 </a>
               </li>
               <li>
-                <a href="/#cmimi" className="hover:text-emerald-400 transition-colors">
+                <a href={`${import.meta.env.BASE_URL}#cmimi`} className="hover:text-emerald-400 transition-colors">
                   Çmimi &amp; Paketat (19.99€)
                 </a>
               </li>
               <li>
-                <a href="/#si-funksionon" className="hover:text-emerald-400 transition-colors">
+                <a href={`${import.meta.env.BASE_URL}#si-funksionon`} className="hover:text-emerald-400 transition-colors">
                   Si Funksionon Shërbimi
                 </a>
               </li>
@@ -140,7 +140,7 @@ export function Footer() {
             <h3 className="text-white font-bold text-xs uppercase tracking-wider mb-4">Ndihmë &amp; Mbështetje</h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <a href="/#pyetje" className="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <a href={`${import.meta.env.BASE_URL}#pyetje`} className="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
                   <HelpCircle size={13} className="text-emerald-400" />
                   <span>Pyetje të Shpeshta (FAQ)</span>
                 </a>

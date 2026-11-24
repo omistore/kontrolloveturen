@@ -1065,7 +1065,7 @@ function Pricing() {
             </div>
 
             <a
-              href="/#kontrollo"
+              href={`${import.meta.env.BASE_URL}#kontrollo`}
               className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors text-center"
             >
               <span>Zgjidh 1 Raport</span>
@@ -1115,7 +1115,7 @@ function Pricing() {
             </div>
 
             <a
-              href="/#kontrollo"
+              href={`${import.meta.env.BASE_URL}#kontrollo`}
               className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-[0_0_25px_rgba(16,185,129,0.35)] text-center"
             >
               <span>Zgjidh 2 Raporte (32.99€)</span>
@@ -1157,7 +1157,7 @@ function Pricing() {
             </div>
 
             <a
-              href="/#kontrollo"
+              href={`${import.meta.env.BASE_URL}#kontrollo`}
               className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-colors text-center"
             >
               <span>Zgjidh 3 Raporte</span>

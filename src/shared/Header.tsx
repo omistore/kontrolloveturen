@@ -45,19 +45,19 @@ export function Header() {
             <span>Raport Shembull</span>
           </Link>
 
-          <a href="/#zbulimi" className="hover:text-emerald-400 transition-colors">
+          <a href={`${import.meta.env.BASE_URL}#zbulimi`} className="hover:text-emerald-400 transition-colors">
             Çfarë Zbulon
           </a>
-          <a href="/#krahasimi" className="hover:text-emerald-400 transition-colors">
+          <a href={`${import.meta.env.BASE_URL}#krahasimi`} className="hover:text-emerald-400 transition-colors">
             Pse Ne
           </a>
-          <a href="/#si-funksionon" className="hover:text-emerald-400 transition-colors">
+          <a href={`${import.meta.env.BASE_URL}#si-funksionon`} className="hover:text-emerald-400 transition-colors">
             Si Funksionon
           </a>
-          <a href="/#cmimi" className="hover:text-emerald-400 transition-colors">
+          <a href={`${import.meta.env.BASE_URL}#cmimi`} className="hover:text-emerald-400 transition-colors">
             Çmimi (19.99€)
           </a>
-          <a href="/#pyetje" className="hover:text-emerald-400 transition-colors">
+          <a href={`${import.meta.env.BASE_URL}#pyetje`} className="hover:text-emerald-400 transition-colors">
             FAQ
           </a>
         </nav>
@@ -80,7 +80,7 @@ export function Header() {
           </Link>
 
           <a
-            href="/#kontrollo"
+            href={`${import.meta.env.BASE_URL}#kontrollo`}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs tracking-wide uppercase transition-all duration-200 shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:shadow-[0_0_25px_rgba(16,185,129,0.5)] transform hover:-translate-y-0.5"
           >
             <span>Kontrollo VIN-in</span>
@@ -113,19 +113,19 @@ export function Header() {
           </Link>
 
           <div className="flex flex-col gap-3 pt-2 text-sm font-medium text-slate-200 border-t border-slate-800/80">
-            <a href="/#zbulimi" onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
+            <a href={`${import.meta.env.BASE_URL}#zbulimi`} onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
               Çfarë zbulon raporti
             </a>
-            <a href="/#krahasimi" onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
+            <a href={`${import.meta.env.BASE_URL}#krahasimi`} onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
               Pse të zgjidhni VeturëCheck
             </a>
-            <a href="/#si-funksionon" onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
+            <a href={`${import.meta.env.BASE_URL}#si-funksionon`} onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
               Si funksionon kontrolli
             </a>
-            <a href="/#cmimi" onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
+            <a href={`${import.meta.env.BASE_URL}#cmimi`} onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
               Çmimet dhe Paketat (19.99€)
             </a>
-            <a href="/#pyetje" onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
+            <a href={`${import.meta.env.BASE_URL}#pyetje`} onClick={closeMenu} className="py-1 hover:text-emerald-400 transition-colors">
               Pyetje të shpeshta (FAQ)
             </a>
             <Link to="/admin" onClick={closeMenu} className="py-1 text-slate-400 hover:text-slate-200 flex items-center gap-1.5">
@@ -135,7 +135,7 @@ export function Header() {
 
           <div className="pt-2">
             <a
-              href="/#kontrollo"
+              href={`${import.meta.env.BASE_URL}#kontrollo`}
               onClick={closeMenu}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-sm tracking-wide uppercase shadow-[0_0_20px_rgba(16,185,129,0.35)]"
             >
