@@ -1,3 +1,5 @@
+import { decodeVinLocal } from './vinLocal'
+
 export type Order = {
   id: string
   vin?: string
@@ -121,8 +123,12 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return body as T
 }
 
-export function decodeVin(vin: string): Promise<{ success: boolean; data: DecodedVin }> {
-  return request<{ success: boolean; data: DecodedVin }>(`/api/vin-decode/${encodeURIComponent(vin)}`)
+export async function decodeVin(vin: string): Promise<{ success: boolean; data: DecodedVin }> {
+  try {
+    return await request<{ success: boolean; data: DecodedVin }>(`/api/vin-decode/${encodeURIComponent(vin)}`)
+  } catch {
+    return { success: true, data: await decodeVinLocal(vin) }
+  }
 }
 
 export function createOrder(order: {
@@ -172,5 +178,5 @@ export function updateAdminOrderStatus(
 export function describeVehicle(d: DecodedVin | null | undefined): string {
   if (!d || !d.make) return 'Automjeti i identifikuar'
   const name = [d.make, d.model].filter(Boolean).join(' ')
-  return d.year ? ` ()` : name
+  return d.year ? `${name} (${d.year})` : name
 }

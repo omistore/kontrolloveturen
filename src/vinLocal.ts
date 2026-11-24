@@ -1,0 +1,98 @@
+import type { DecodedVin } from './api'
+
+// Map WMI (first 3 chars) to Manufacturer and Country
+const WMI_MAP: Record<string, { make: string; country: string }> = {
+  WBA: { make: 'BMW', country: 'Gjermani' },
+  WBS: { make: 'BMW M', country: 'Gjermani' },
+  WBY: { make: 'BMW i', country: 'Gjermani' },
+  WAU: { make: 'Audi', country: 'Gjermani' },
+  WUA: { make: 'Audi Sport', country: 'Gjermani' },
+  WDB: { make: 'Mercedes-Benz', country: 'Gjermani' },
+  WDC: { make: 'Mercedes-Benz', country: 'Gjermani' },
+  WDD: { make: 'Mercedes-Benz', country: 'Gjermani' },
+  WVW: { make: 'Volkswagen', country: 'Gjermani' },
+  WV1: { make: 'Volkswagen Nutzfahrzeuge', country: 'Gjermani' },
+  WV2: { make: 'Volkswagen Nutzfahrzeuge', country: 'Gjermani' },
+  WP0: { make: 'Porsche', country: 'Gjermani' },
+  WP1: { make: 'Porsche', country: 'Gjermani' },
+  VF1: { make: 'Renault', country: 'Francë' },
+  VF3: { make: 'Peugeot', country: 'Francë' },
+  VF7: { make: 'Citroën', country: 'Francë' },
+  ZAR: { make: 'Alfa Romeo', country: 'Itali' },
+  ZFA: { make: 'Fiat', country: 'Itali' },
+  ZFF: { make: 'Ferrari', country: 'Itali' },
+  '1FA': { make: 'Ford', country: 'SHBA' },
+  '1FD': { make: 'Ford', country: 'SHBA' },
+  '1FM': { make: 'Ford', country: 'SHBA' },
+  '1FT': { make: 'Ford', country: 'SHBA' },
+  '1G1': { make: 'Chevrolet', country: 'SHBA' },
+  '1GC': { make: 'Chevrolet', country: 'SHBA' },
+  '1G6': { make: 'Cadillac', country: 'SHBA' },
+  '2HG': { make: 'Honda', country: 'Kanada' },
+  '2HK': { make: 'Honda', country: 'Kanada' },
+  '3VW': { make: 'Volkswagen', country: 'Meksikë' },
+  '4S3': { make: 'Subaru', country: 'SHBA' },
+  '5UX': { make: 'BMW', country: 'SHBA' },
+  '5YJ': { make: 'Tesla', country: 'SHBA' },
+  JHM: { make: 'Honda', country: 'Japoni' },
+  JHL: { make: 'Honda', country: 'Japoni' },
+  JM1: { make: 'Mazda', country: 'Japoni' },
+  JN1: { make: 'Nissan', country: 'Japoni' },
+  JN6: { make: 'Nissan', country: 'Japoni' },
+  JT1: { make: 'Toyota', country: 'Japoni' },
+  JT2: { make: 'Toyota', country: 'Japoni' },
+  JTD: { make: 'Toyota', country: 'Japoni' },
+  JTE: { make: 'Toyota', country: 'Japoni' },
+  KMH: { make: 'Hyundai', country: 'Kore e Jugut' },
+  KM8: { make: 'Hyundai', country: 'Kore e Jugut' },
+  KNA: { make: 'Kia', country: 'Kore e Jugut' },
+  KND: { make: 'Kia', country: 'Kore e Jugut' },
+  SAL: { make: 'Land Rover', country: 'Britani e Madhe' },
+  SAJ: { make: 'Jaguar', country: 'Britani e Madhe' },
+  TMB: { make: 'Škoda', country: 'Çeki' },
+  TM9: { make: 'Škoda', country: 'Çeki' },
+  VSS: { make: 'SEAT', country: 'Spanjë' },
+  YV1: { make: 'Volvo', country: 'Suedi' },
+  YV4: { make: 'Volvo', country: 'Suedi' },
+}
+
+const YEAR_CODES = 'ABCDEFGHJKLMNPRSTVWXY123456789'
+
+/** Model year from VIN position 10; picks the latest cycle that isn't in the future. */
+function yearFromVin(vin: string): number {
+  const idx = YEAR_CODES.indexOf(vin[9] || '')
+  if (idx < 0) return 0
+  const recent = 2010 + idx
+  return recent <= new Date().getFullYear() + 1 ? recent : recent - 30
+}
+
+/** Browser-side decode used when the API is unreachable (e.g. static hosting). */
+export async function decodeVinLocal(rawVin: string): Promise<DecodedVin> {
+  const vin = rawVin.trim().toUpperCase()
+  const info = WMI_MAP[vin.slice(0, 3)]
+  try {
+    const res = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/${vin}?format=json`)
+    if (res.ok) {
+      const data = (await res.json()) as { Results?: Array<Record<string, string>> }
+      const r = data.Results?.[0]
+      if (r?.Make) {
+        const engine = [r.DisplacementL && `${Number(r.DisplacementL).toFixed(1)}L`, r.EngineCylinders && `${r.EngineCylinders} cil.`]
+          .filter(Boolean)
+          .join(' ')
+        return {
+          vin,
+          make: r.Make,
+          model: r.Model || '',
+          year: Number(r.ModelYear) || yearFromVin(vin),
+          engine: engine || undefined,
+          fuelType: r.FuelTypePrimary || undefined,
+          bodyType: r.BodyClass || undefined,
+          country: r.PlantCountry || info?.country,
+        }
+      }
+    }
+  } catch {
+    // fall back to WMI-only result
+  }
+  return { vin, make: info?.make || '', model: '', year: yearFromVin(vin), country: info?.country }
+}
