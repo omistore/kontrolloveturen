@@ -65,6 +65,16 @@ const WMI_MAP: Record<string, { make: string; country: string }> = {
   YV4: { make: 'Volvo', country: 'Suedi' },
 }
 
+const YEAR_CODES = 'ABCDEFGHJKLMNPRSTVWXY123456789'
+
+/** Model year from VIN position 10 (ISO 3779 cycle); picks the latest cycle that isn't in the future. */
+function yearFromVin(vin: string): number {
+  const idx = YEAR_CODES.indexOf(vin[9] || '')
+  if (idx < 0) return 0
+  const recent = 2010 + idx
+  return recent <= new Date().getFullYear() + 1 ? recent : recent - 30
+}
+
 /**
  * Decodes a VIN. Only verified data is returned: NHTSA vPIC results when available,
  * otherwise just the manufacturer/country from the WMI. Nothing is guessed.
@@ -91,7 +101,7 @@ export async function decodeVin(rawVin: string): Promise<DecodedVin> {
           vin,
           make: r.Make,
           model: r.Model || '',
-          year: Number(r.ModelYear) || 0,
+          year: Number(r.ModelYear) || yearFromVin(vin),
           engine: engine || undefined,
           fuelType: r.FuelTypePrimary || undefined,
           bodyType: r.BodyClass || undefined,
@@ -107,7 +117,7 @@ export async function decodeVin(rawVin: string): Promise<DecodedVin> {
     vin,
     make: manufacturerInfo?.make || '',
     model: '',
-    year: 0,
+    year: yearFromVin(vin),
     country: manufacturerInfo?.country,
   }
 }
