@@ -25,9 +25,7 @@ const date = (value: string) =>
   new Intl.DateTimeFormat('sq-AL', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 
 export default function AdminPage() {
-  const [token, setToken] = useState(
-    () => sessionStorage.getItem('admin-session-token') || '72c19de8eb34a3a6aa0733e1a47e8ae383b6e4fb7e846a3b0dfe2d52ca2d335d',
-  )
+  const [token, setToken] = useState(() => sessionStorage.getItem('admin-session-token') || '')
   const [dashboard, setDashboard] = useState<AdminDashboard | null>(null)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)

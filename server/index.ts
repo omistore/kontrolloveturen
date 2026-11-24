@@ -49,7 +49,11 @@ const asyncHandler = (handler: AsyncHandler) => (req: Request, res: Response, ne
 }
 
 function authorizedAdmin(req: Request, res: Response, next: NextFunction): void {
-  const configuredToken = process.env.ADMIN_ACCESS_TOKEN || '72c19de8eb34a3a6aa0733e1a47e8ae383b6e4fb7e846a3b0dfe2d52ca2d335d'
+  const configuredToken = process.env.ADMIN_ACCESS_TOKEN
+  if (!configuredToken || configuredToken.length < 32) {
+    res.status(503).json({ error: 'Paneli i administratorit nuk është konfiguruar.' })
+    return
+  }
   const suppliedToken = req.header('authorization')?.replace(/^Bearer\s+/i, '')
   if (!suppliedToken) {
     res.status(401).json({ error: 'Ju lutemi autentikohuni si administrator.' })
