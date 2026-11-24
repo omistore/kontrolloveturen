@@ -76,11 +76,7 @@ function maskVin(vin: string): string {
 
 // 1. Health check
 app.get('/api/health', (_req, res) => {
-  res.json({
-    status: 'ok',
-    databaseConfigured: true,
-    storageType: storage.isPostgresActive() ? 'postgresql' : 'local-resilient-store',
-  })
+  res.json({ status: 'ok' })
 })
 
 // 2. Decode VIN live (instant free preview of vehicle specs)
@@ -200,7 +196,7 @@ app.get('/api/reports/:orderId', asyncHandler(async (req, res) => {
     vehicle,
     order: {
       id: order.id,
-      vin: order.vin,
+      vin: report ? order.vin : maskVin(order.vin),
       vinMasked: maskVin(order.vin),
       vehicleType: order.vehicle_type,
       status: order.status,
